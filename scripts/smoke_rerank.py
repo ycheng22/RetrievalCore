@@ -1,4 +1,5 @@
 import os
+
 from dotenv import load_dotenv
 
 # Load env before importing FlagEmbedding so HF_HOME and HF_HUB_OFFLINE take effect
@@ -18,7 +19,7 @@ def main():
     os.environ["HF_HUB_OFFLINE"] = "1"
     try:
         reranker = FlagReranker(model_name, use_fp16=True)
-    except Exception:
+    except Exception:  # noqa: BLE001
         os.environ.pop("HF_HUB_OFFLINE", None)
         reranker = FlagReranker(model_name, use_fp16=True)
     

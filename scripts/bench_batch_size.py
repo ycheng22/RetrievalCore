@@ -11,10 +11,10 @@ import json
 import time
 from pathlib import Path
 
+import pandas as pd
 import torch
 import torch.nn.functional as F
 from transformers import AutoModel, AutoTokenizer
-import pandas as pd
 
 MODEL_NAME = "BAAI/bge-m3"
 
@@ -193,7 +193,7 @@ def main() -> None:
     total_min_est_lower = pure_min * 1.5
     total_min_est_upper = pure_min * 2.0
 
-    print(f"\n=== Final Recommendation ===")
+    print("\n=== Final Recommendation ===")
     print(f"Recommended Batch Size : {chosen}  ({note})")
     print(f"Expected Throughput    : {tp:.1f} items/s")
     print(f"Peak Memory            : {knee_result['peak_gib']:.2f} GiB (Stress peak)")
