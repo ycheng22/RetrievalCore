@@ -1,7 +1,7 @@
 import asyncio
 
-from core.models import Query, ScoreBreakdown, ScoredHit
-from core.retrievers.base import Retriever
+from retrieval_core.models import Query, ScoreBreakdown, ScoredHit
+from retrieval_core.retrievers.base import Retriever
 
 
 class DummyRetriever:

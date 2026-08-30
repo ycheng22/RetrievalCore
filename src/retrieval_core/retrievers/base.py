@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from core.models import Query, ScoredHit
+from retrieval_core.models import Query, ScoredHit
 
 
 class Retriever(Protocol):

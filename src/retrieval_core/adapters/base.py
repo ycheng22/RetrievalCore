@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from core.models import Product
+from retrieval_core.models import Product
 
 
 class CorpusAdapter(Protocol):

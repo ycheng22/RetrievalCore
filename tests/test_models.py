@@ -1,4 +1,4 @@
-from core.models import (
+from retrieval_core.models import (
     PipelineConfig,
     ScoreBreakdown,
     ScoredHit,

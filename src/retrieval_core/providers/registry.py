@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from providers.base import ModelProvider
+from retrieval_core.providers.base import ModelProvider
 
 _REGISTRY: dict[str, ModelProvider] = {}
 
