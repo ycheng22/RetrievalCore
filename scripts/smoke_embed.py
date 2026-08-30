@@ -1,10 +1,11 @@
 import os
-import torch
-from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
 
-# Load env to ensure HF_HOME and HF_ENDPOINT are set
+# Load env before importing HuggingFace-dependent packages so HF_HOME takes effect
 load_dotenv()
+
+import torch
+from sentence_transformers import SentenceTransformer
 
 print(f"HF_HOME: {os.getenv('HF_HOME')}")
 print(f"HF_ENDPOINT: {os.getenv('HF_ENDPOINT')}")
@@ -14,7 +15,11 @@ def main():
     print(f"Loading {model_name}...")
     
     # We use SentenceTransformer for the dense embedding part of BGE-M3
-    model = SentenceTransformer(model_name)
+    # local_files_only=True uses the local cache without pinging HuggingFace Hub
+    try:
+        model = SentenceTransformer(model_name, local_files_only=True)
+    except Exception:
+        model = SentenceTransformer(model_name)
     
     query = "wireless earbuds"
     docs = [
@@ -60,3 +65,29 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# output
+"""
+--- (a) Check Shape ---
+Query shape: torch.Size([1024]) (Expected: 1024)
+Docs shape: torch.Size([3, 1024]) (Expected: 3, 1024)
+
+--- (b) Check L2 Normalization ---
+Query norm: 1.0000
+Doc 0 norm: 1.0000
+Doc 1 norm: 1.0000
+Doc 2 norm: 1.0000
+
+--- (c) Check Similarity Ranking ---
+d:\Github_Clones\RetrievalCore\scripts\smoke_embed.py:47: UserWarning: The use of `x.T` on tensors of dimension other than 2 to reverse their shape is deprecated and it will throw an error in a future release. Consider `x.mT` to transpose batches of matrices or `x.permute(*torch.arange(x.ndim - 1, -1, -1))` to reverse the dimensions of a tensor. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\native\TensorShape.cpp:3729.)
+shape is deprecated and it will throw an error in a future release. Consider `x.mT` to transpose batches of matrices or `x.permute(*torch.arange(x.ndim - 1, -1, -1))` to reverse the dimensions of a tensor. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\native\TensorShape.cpp:3729.)
+sider `x.mT` to transpose batches of matrices or `x.permute(*torch.arange(x.ndim - 1, -1, -1))` to reverse the dimensions of a tensor. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\native\TensorShape.cpp:3729.)
+red internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\native\TensorShape.cpp:3729.)
+src\ATen\native\TensorShape.cpp:3729.)
+  similarities = torch.matmul(doc_embs, query_emb.T).squeeze()
+Strong  ('Bluetooth wireless earphones'): 0.8676
+Weak    ('phone charging cable')        : 0.5798
+Irrel   ('garden hose')                 : 0.4929
+
+[SUCCESS] smoke_embed.py PASSED!
+"""

@@ -1,8 +1,10 @@
 import os
-from FlagEmbedding import FlagReranker
 from dotenv import load_dotenv
 
+# Load env before importing FlagEmbedding so HF_HOME and HF_HUB_OFFLINE take effect
 load_dotenv()
+
+from FlagEmbedding import FlagReranker
 
 print(f"HF_HOME: {os.getenv('HF_HOME')}")
 print(f"HF_ENDPOINT: {os.getenv('HF_ENDPOINT')}")
@@ -12,7 +14,13 @@ def main():
     print(f"Loading {model_name}...")
     
     # use_fp16=True can speed up and save memory on GPU if supported
-    reranker = FlagReranker(model_name, use_fp16=True)
+    # Fallback to local files if already cached
+    os.environ["HF_HUB_OFFLINE"] = "1"
+    try:
+        reranker = FlagReranker(model_name, use_fp16=True)
+    except Exception:
+        os.environ.pop("HF_HUB_OFFLINE", None)
+        reranker = FlagReranker(model_name, use_fp16=True)
     
     query = "wireless earbuds"
     docs = [
@@ -41,3 +49,12 @@ def main():
 
 if __name__ == "__main__":
     main()
+# output:
+"""
+--- Check Similarity Ranking ---
+Strong  ('Bluetooth wireless earphones'): 4.0547
+Weak    ('phone charging cable')        : -10.9219
+Irrel   ('garden hose')                 : -11.0312
+
+[SUCCESS] smoke_rerank.py PASSED!
+"""
