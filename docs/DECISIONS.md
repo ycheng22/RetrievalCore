@@ -10,3 +10,48 @@ This document records key technical decisions, environment configurations, and d
 - **CUDA Version**: CUDA 12.4 (Driver supports up to CUDA 13.2)
 - **PyTorch Version**: 2.6.0+cu124
 - **vLLM Version**: N/A (Official wheels do not support native Windows; recommended to use WSL2 or local serving via Ollama/llama.cpp)
+
+
+## Model providers
+- OpenAI API 
+- Gemeni 
+- DeepSeek 
+- Alibaba Model 
+
+```json
+{
+  "date": "2026-08-30",
+  "device": "NVIDIA GeForce RTX 2060 SUPER",
+  "max_len": 512,
+  "total_products": 50000,
+  "results": [
+    {
+      "batch_size": 32,
+      "items_per_s": 88.7,
+      "peak_gib": 1.74
+    },
+    {
+      "batch_size": 64,
+      "items_per_s": 71.0,
+      "peak_gib": 2.24
+    },
+    {
+      "batch_size": 128,
+      "items_per_s": 70.4,
+      "peak_gib": 3.33
+    },
+    {
+      "batch_size": 256,
+      "items_per_s": 69.6,
+      "peak_gib": 5.58
+    },
+    {
+      "batch_size": 512,
+      "items_per_s": 13.7,
+      "peak_gib": 10.1
+    }
+  ],
+  "chosen": 32,
+  "note": "Throughput reached its plateau (knee of the curve). Chosen value naturally leaves a memory safety buffer."
+}
+```
