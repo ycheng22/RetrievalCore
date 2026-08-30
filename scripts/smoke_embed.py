@@ -1,15 +1,7 @@
 import os
 
-from dotenv import load_dotenv
-
-# Load env before importing HuggingFace-dependent packages so HF_HOME takes effect
-load_dotenv()
-
 import torch
 from sentence_transformers import SentenceTransformer
-
-print(f"HF_HOME: {os.getenv('HF_HOME')}")
-print(f"HF_ENDPOINT: {os.getenv('HF_ENDPOINT')}")
 
 def main():
     model_name = "BAAI/bge-m3"

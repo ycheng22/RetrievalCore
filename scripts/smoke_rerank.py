@@ -1,14 +1,6 @@
 import os
 
-from dotenv import load_dotenv
-
-# Load env before importing FlagEmbedding so HF_HOME and HF_HUB_OFFLINE take effect
-load_dotenv()
-
 from FlagEmbedding import FlagReranker
-
-print(f"HF_HOME: {os.getenv('HF_HOME')}")
-print(f"HF_ENDPOINT: {os.getenv('HF_ENDPOINT')}")
 
 def main():
     model_name = "BAAI/bge-reranker-v2-m3"
