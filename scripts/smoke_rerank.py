@@ -2,6 +2,7 @@ import os
 
 from FlagEmbedding import FlagReranker
 
+
 def main():
     model_name = "BAAI/bge-reranker-v2-m3"
     print(f"Loading {model_name}...")

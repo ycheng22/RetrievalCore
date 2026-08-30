@@ -1,7 +1,7 @@
-import os
 
 import torch
 from sentence_transformers import SentenceTransformer
+
 
 def main():
     model_name = "BAAI/bge-m3"
