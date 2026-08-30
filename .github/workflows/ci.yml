@@ -24,6 +24,6 @@ jobs:
       - name: Run Ruff
         run: ruff check .
       - name: Run Mypy
-        run: mypy core adapters providers tests
+        run: mypy src/retrieval_core tests
       - name: Run Pytest
         run: pytest
