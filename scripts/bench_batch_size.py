@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """Measure the safe BGE-M3 embedding batch size on this machine.
 
 Stop Ollama before running. Numbers measured with another process resident
