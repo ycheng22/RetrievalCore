@@ -66,3 +66,6 @@ Local deployment is preferred for development and testing, while Docker deployme
 
 ## GCP artifactory registry path
 - us-east1-docker.pkg.dev/gcp-share-507118/containers
+
+## Split search into cacheable 
+| 2026-09-02 | Split search into cacheable `GET` (preset examples) and `POST` (free-form, BYO key); CORS allow-list from Settings, never `*` | Frontend on Cloudflare Pages and API on Cloud Run are different origins. A cross-origin POST always triggers a preflight, doubling latency on a cold start — which is exactly the first impression a recruiter gets. GET keeps preset queries CORS-simple and CDN-cacheable, so they render even while the service is cold or down. | Applies to SPEC 22.5 |
